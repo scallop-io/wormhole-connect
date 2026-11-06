@@ -1,3 +1,4 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { ReactNode } from 'react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +14,6 @@ import {
   isDestinationQueued,
   isRefunded,
   isFailed,
-  routes,
   isNative,
 } from '@wormhole-foundation/sdk';
 import { getTokenDetails, getTransferDetails } from 'telemetry';

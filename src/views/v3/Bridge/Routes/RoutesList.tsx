@@ -1,6 +1,6 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import React from 'react';
 import Stack from '@mui/material/Stack';
-import type { routes } from '@wormhole-foundation/sdk';
 
 import SingleRoute from './SingleRoute';
 

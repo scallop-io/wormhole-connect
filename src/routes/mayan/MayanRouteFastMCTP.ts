@@ -1,4 +1,4 @@
-import type { routes } from '@wormhole-foundation/sdk-connect';
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { Network } from '@wormhole-foundation/sdk-base';
 import { MayanProtocol } from './types';
 import { MayanRouteCrossChain } from './MayanRouteCrossChain';

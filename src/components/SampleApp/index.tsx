@@ -1,3 +1,4 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import './styles.css';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
@@ -29,7 +30,6 @@ import type { WormholeConnectConfig } from 'config/types';
  * easily test NTT in SampleApp.
  *
  */
-import { routes } from '@wormhole-foundation/sdk';
 import {
   MayanRoute,
   MayanRouteWH,

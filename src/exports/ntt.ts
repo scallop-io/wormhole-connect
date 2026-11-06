@@ -1,5 +1,4 @@
-import type { routes } from '@wormhole-foundation/sdk';
-
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import '@wormhole-foundation/sdk-definitions-ntt';
 import '@wormhole-foundation/sdk-evm-ntt';
 import '@wormhole-foundation/sdk-solana-ntt';

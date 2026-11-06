@@ -1,9 +1,5 @@
-import type {
-  ChainContext,
-  Network,
-  routes,
-  TokenId,
-} from '@wormhole-foundation/sdk';
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
+import type { ChainContext, Network, TokenId } from '@wormhole-foundation/sdk';
 import type { MultiTokenNttRoute } from '@wormhole-foundation/sdk-route-ntt';
 import {
   MultiTokenNttExecutorRoute,

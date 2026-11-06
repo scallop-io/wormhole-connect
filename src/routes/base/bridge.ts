@@ -1,9 +1,9 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { BaseBridgeExecutorRoute } from '@wormhole-labs/base-bridge-executor-route';
 import {
   baseBridgeRoute,
   type TokenConfiguration,
 } from '@wormhole-labs/base-bridge-executor-route';
-import type { routes } from '@wormhole-foundation/sdk-connect';
 
 export type { BaseBridgeExecutorRoute, TokenConfiguration };
 

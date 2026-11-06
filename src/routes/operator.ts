@@ -1,3 +1,4 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import config from 'config';
 import type { Token } from 'config/tokens';
 import { parseTokenKey, tokenKey } from 'config/tokens';
@@ -14,7 +15,6 @@ import type {
 } from '@wormhole-foundation/sdk';
 import {
   isUnattestedTokenId,
-  routes,
   amount as sdkAmount,
 } from '@wormhole-foundation/sdk';
 import {

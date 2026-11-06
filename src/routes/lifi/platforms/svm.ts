@@ -1,5 +1,6 @@
 import type { Route } from '@lifi/sdk';
 import { getStepTransaction } from '@lifi/sdk';
+import { getLiFiClient } from '../client';
 import type { Network } from '@wormhole-foundation/sdk-connect';
 import type { SolanaTransaction } from '@wormhole-foundation/sdk-solana';
 import {
@@ -21,7 +22,7 @@ export async function executeSolanaSteps<N extends Network>(
   const { request, signer, rpc, txs } = context;
 
   for (const step of route.steps) {
-    const populatedStep = await getStepTransaction(step);
+    const populatedStep = await getStepTransaction(getLiFiClient(), step);
     const txData = populatedStep.transactionRequest?.data;
 
     if (!txData) {

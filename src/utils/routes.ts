@@ -1,6 +1,5 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import config from 'config';
-
-import type { routes } from '@wormhole-foundation/sdk';
 
 export const getBestRoutes = (
   routes: string[],

@@ -1,4 +1,5 @@
 // Legacy SDK
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { ChainResourceMap, WormholeConfig } from 'sdklegacy';
 
 // SDKv2
@@ -7,7 +8,6 @@ import type {
   Wormhole as WormholeV2,
   Chain,
   AttestationReceipt,
-  routes,
   IndexerConfig,
 } from '@wormhole-foundation/sdk';
 
@@ -58,8 +58,6 @@ export enum TokenIcon {
   'KLAY',
   'NTT',
   'SCROLL',
-  'XLAYER',
-  'MANTLE',
   'WORLDCHAIN',
   'BERA',
   'INK',

@@ -1,3 +1,4 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type {
   ComposableSuiMoveCallsOptions,
   Quote as MayanQuote,
@@ -10,7 +11,7 @@ import {
   generateFetchQuoteUrl,
   getSwapFromEvmTxPayload,
 } from '@mayanfinance/swap-sdk';
-import type { SuiClient } from '@mysten/sui/client';
+import type { SuiGrpcClient } from '@mysten/sui/grpc';
 import { Transaction } from '@mysten/sui/transactions';
 import {
   createAssociatedTokenAccountIdempotentInstruction,
@@ -56,7 +57,6 @@ import {
   isSourceFinalized,
   isSourceInitiated,
   nativeChainIds,
-  routes,
 } from '@wormhole-foundation/sdk-connect';
 import type { EvmChains } from '@wormhole-foundation/sdk-evm';
 import {
@@ -93,11 +93,7 @@ import {
   type ValidatedParams,
   type ValidationResult,
 } from './types';
-import {
-  isHyperCoreChain,
-  maybeGetHyperCorePermitSignature,
-  validateHyperCoreTransfer,
-} from 'utils/hypercore';
+import { isHyperCoreChain, validateHyperCoreTransfer } from 'utils/hypercore';
 
 export class MayanRouteBase<N extends Network> extends routes.AutomaticRoute<
   N,
@@ -126,12 +122,9 @@ export class MayanRouteBase<N extends Network> extends routes.AutomaticRoute<
     );
   }
 
-  // Helper function to normalize quote for testnet compatibility
+  // Testnet SDK uses an older Quote type, so loosen the type
   protected normalizeQuoteForTestnet(quote: MayanQuote): any {
-    // Remove properties that don't exist in testnet SDK
-    const { hyperCoreParams: _hyperCoreParams, ...testnetCompatibleQuote } =
-      quote;
-    return testnetCompatibleQuote;
+    return quote;
   }
 
   getDefaultOptions(): Options {
@@ -339,7 +332,7 @@ export class MayanRouteBase<N extends Network> extends routes.AutomaticRoute<
   }
 
   async injectReferralInstructionsForSui(
-    provider: SuiClient,
+    provider: SuiGrpcClient,
     request: routes.RouteTransferRequest<N>,
     sender: string,
     originalAmount: string,
@@ -648,20 +641,12 @@ export class MayanRouteBase<N extends Network> extends routes.AutomaticRoute<
       const txs: TransactionId[] = [];
       const rpc = await request.fromChain.getRpc();
       const feeUnits = this.getFeeInBaseUnits(request, quote.params.amount);
-      const usdcPermitSignature = await maybeGetHyperCorePermitSignature(
-        request,
-        signer,
-        quote,
-        destinationAddress,
-      );
-
       if (
         request.fromChain.chain === 'Solana' ||
         request.fromChain.chain === 'Fogo'
       ) {
         const solanaOptions = {
           allowSwapperOffCurve: true,
-          usdcPermitSignature,
         };
 
         const { instructions, signers, lookupTables } =
@@ -746,13 +731,8 @@ export class MayanRouteBase<N extends Network> extends routes.AutomaticRoute<
           inputCoin: { result: remainingAmountCoin },
         };
 
-        const permitPartCallsOptions = usdcPermitSignature && {
-          usdcPermitSignature,
-        };
-
         const options: ComposableSuiMoveCallsOptions = {
           ...txPartCallsOptions,
-          ...permitPartCallsOptions,
         };
 
         const tx = await (this.isTestnetRequest(request)
@@ -864,11 +844,6 @@ export class MayanRouteBase<N extends Network> extends routes.AutomaticRoute<
           throw new Error('Missing Mayan quote details');
         }
 
-        const mainnetOptions =
-          usdcPermitSignature !== undefined
-            ? { usdcPermitSignature }
-            : undefined;
-
         const mayanTxRequest = this.isTestnetRequest(request)
           ? getSwapFromEvmTxPayloadTestnet(
               this.normalizeQuoteForTestnet(quoteDetails),
@@ -889,7 +864,6 @@ export class MayanRouteBase<N extends Network> extends routes.AutomaticRoute<
               Number(nativeChainId!),
               undefined,
               undefined,
-              mainnetOptions,
             );
 
         const txReq = createTransactionRequest(

@@ -1,5 +1,5 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import { describe, it, expect, beforeEach } from 'vitest';
-import type { routes } from '@wormhole-foundation/sdk-connect';
 import type { Network } from '@wormhole-foundation/sdk-base';
 import { MayanRouteMONOCHAIN } from '../MayanRouteMONOCHAIN';
 import { MayanRouteFastMCTP } from '../MayanRouteFastMCTP';

@@ -1,5 +1,6 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import { useMemo } from 'react';
-import type { amount, Chain, routes } from '@wormhole-foundation/sdk';
+import type { amount, Chain } from '@wormhole-foundation/sdk';
 import useFetchQuotes from 'hooks/useFetchQuotes';
 import config from 'config';
 import useFetchSupportedRoutes from './useFetchSupportedRoutes';

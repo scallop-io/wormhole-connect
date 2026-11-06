@@ -271,7 +271,13 @@ export class TokenMapping<T> {
     } else if (isTokenTuple(firstArg)) {
       return this._mapping.get(firstArg[0])?.get(firstArg[1].toLowerCase());
     } else {
-      const tokenId = parseTokenKey(firstArg);
+      let tokenId: TokenId;
+      try {
+        tokenId = parseTokenKey(firstArg as string);
+      } catch {
+        // Unparseable key, e.g. stored data referencing a chain that was removed
+        return undefined;
+      }
       return this._mapping
         .get(tokenId.chain)
         ?.get(addressString(tokenId).toLowerCase());

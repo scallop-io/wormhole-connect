@@ -1,3 +1,4 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,7 +6,6 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import type { routes } from '@wormhole-foundation/sdk';
 
 import config from 'config';
 import { getBestRoutes } from 'utils/routes';

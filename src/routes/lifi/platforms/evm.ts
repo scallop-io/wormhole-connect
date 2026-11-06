@@ -1,5 +1,6 @@
 import type { Route } from '@lifi/sdk';
 import { getStepTransaction } from '@lifi/sdk';
+import { getLiFiClient } from '../client';
 import type { TokenId, Network } from '@wormhole-foundation/sdk-connect';
 import {
   isNative,
@@ -74,7 +75,7 @@ export async function executeEvmSteps<N extends Network>(
   }
 
   for (const step of route.steps) {
-    const populatedStep = await getStepTransaction(step);
+    const populatedStep = await getStepTransaction(getLiFiClient(), step);
     const txData = populatedStep.transactionRequest;
 
     if (!txData) {
