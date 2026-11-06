@@ -268,51 +268,6 @@ export const TESTNET_TOKENS: TokenConfig[] = [
   },
   {
     symbol: 'ETH',
-    icon: TokenIcon.SCROLL,
-    decimals: 18,
-    tokenId: { chain: 'Scroll', address: 'native' },
-  },
-  {
-    symbol: 'WETH',
-    icon: TokenIcon.SCROLL,
-    decimals: 18,
-    tokenId: {
-      chain: 'Scroll',
-      address: '0x5300000000000000000000000000000000000004',
-    },
-  },
-  {
-    symbol: 'OKB',
-    icon: TokenIcon.XLAYER,
-    decimals: 18,
-    tokenId: { chain: 'Xlayer', address: 'native' },
-  },
-  {
-    symbol: 'WOKB',
-    icon: TokenIcon.XLAYER,
-    decimals: 18,
-    tokenId: {
-      chain: 'Xlayer',
-      address: '0xa2aFfd8301BfB3c5b815829f2F509f053556D21B',
-    },
-  },
-  {
-    symbol: 'MNT',
-    icon: TokenIcon.MANTLE,
-    decimals: 18,
-    tokenId: { chain: 'Mantle', address: 'native' },
-  },
-  {
-    symbol: 'WMNT',
-    icon: TokenIcon.MANTLE,
-    decimals: 18,
-    tokenId: {
-      chain: 'Mantle',
-      address: '0xa4c4cb2A072eE99f77212Fa18c2B7Ca26DA23905',
-    },
-  },
-  {
-    symbol: 'ETH',
     tokenId: {
       chain: 'Worldchain',
       address: 'native',

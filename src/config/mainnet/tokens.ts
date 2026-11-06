@@ -466,51 +466,6 @@ export const MAINNET_TOKENS: TokenConfig[] = [
     icon: TokenIcon.PYTH,
   },
   {
-    symbol: 'ETH',
-    decimals: 18,
-    icon: TokenIcon.SCROLL,
-    tokenId: { chain: 'Scroll', address: 'native' },
-  },
-  {
-    symbol: 'WETH',
-    decimals: 18,
-    icon: TokenIcon.SCROLL,
-    tokenId: {
-      chain: 'Scroll',
-      address: '0x5300000000000000000000000000000000000004',
-    },
-  },
-  {
-    symbol: 'OKB',
-    decimals: 18,
-    icon: TokenIcon.XLAYER,
-    tokenId: { chain: 'Xlayer', address: 'native' },
-  },
-  {
-    symbol: 'WOKB',
-    decimals: 18,
-    icon: TokenIcon.XLAYER,
-    tokenId: {
-      chain: 'Xlayer',
-      address: '0xe538905cf8410324e03A5A23C1c177a474D59b2b',
-    },
-  },
-  {
-    symbol: 'MNT',
-    decimals: 18,
-    icon: TokenIcon.MANTLE,
-    tokenId: { chain: 'Mantle', address: 'native' },
-  },
-  {
-    symbol: 'WMNT',
-    decimals: 18,
-    icon: TokenIcon.MANTLE,
-    tokenId: {
-      chain: 'Mantle',
-      address: '0x78c1b0C915c4FAA5FffA6CAbf0219DA63d7f4cb8',
-    },
-  },
-  {
     symbol: 'tBTC',
     decimals: 18,
     tokenId: {
@@ -915,15 +870,6 @@ export const MAINNET_TOKENS: TokenConfig[] = [
     decimals: 6,
     tokenId: {
       chain: 'Ethereum',
-      address: '0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a',
-    },
-  },
-  {
-    symbol: 'AUSD',
-    icon: TokenIcon.AUSD,
-    decimals: 6,
-    tokenId: {
-      chain: 'Mantle',
       address: '0x00000000eFE302BEAA2b3e6e1b18d08D69a9012a',
     },
   },

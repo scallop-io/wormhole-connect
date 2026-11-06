@@ -310,7 +310,6 @@ export const getTokenExplorerUrl = (
         baseUrl,
         `${isHexString(path) ? 'fungible_asset' : 'coin'}/${path}`,
       );
-    case 'Fantom':
     case 'Solana':
     case 'Fogo':
       return `${baseUrl}address/${path}`;

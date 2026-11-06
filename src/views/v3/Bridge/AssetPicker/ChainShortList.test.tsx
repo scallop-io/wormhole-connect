@@ -69,12 +69,12 @@ const mockChainConfigs = [
     explorerName: 'Snowtrace',
   },
   {
-    key: 'Fantom',
-    displayName: 'Fantom',
-    sdkName: 'Fantom' as const,
-    icon: 'Fantom' as const,
-    explorerUrl: 'https://ftmscan.com',
-    explorerName: 'FTMScan',
+    key: 'Optimism',
+    displayName: 'Optimism',
+    sdkName: 'Optimism' as const,
+    icon: 'Optimism' as const,
+    explorerUrl: 'https://optimistic.etherscan.io',
+    explorerName: 'Optimism Etherscan',
   },
   {
     key: 'Sui',
@@ -122,7 +122,7 @@ describe('ChainShortList', () => {
     expect(screen.getByText('BNB Chain')).toBeInTheDocument();
     expect(screen.getByText('Polygon')).toBeInTheDocument();
     expect(screen.getByText('Avalanche')).toBeInTheDocument();
-    expect(screen.getByText('Fantom')).toBeInTheDocument();
+    expect(screen.getByText('Optimism')).toBeInTheDocument();
     expect(screen.getByText('Sui')).toBeInTheDocument();
   });
 
@@ -181,7 +181,7 @@ describe('ChainShortList', () => {
 
     // With 9 chains: Math.ceil(9/2) = 5 chains in first row, 4 chains in second row
     // First row should have: Ethereum, Solana, Arbitrum, Base, BNB Chain
-    // Second row should have: Polygon, Avalanche, Fantom, Sui
+    // Second row should have: Polygon, Avalanche, Optimism, Sui
 
     // All chains should be rendered
     expect(screen.getAllByRole('button')).toHaveLength(9);

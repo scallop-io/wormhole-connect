@@ -34,8 +34,6 @@ export const CHAIN_ID_MAP: Partial<Record<Chain, ChainId>> = {
   Celo: ChainId.CEL,
   Unichain: ChainId.UNI,
   Berachain: ChainId.BER,
-  Mantle: ChainId.MNT,
-  Scroll: ChainId.SCL,
   Worldchain: ChainId.WCC,
   Moonbeam: ChainId.MOO,
   Linea: ChainId.LNA,
