@@ -124,6 +124,7 @@
     "start:mainnet": "NODE_OPTIONS=--max-http-header-size=32000 REACT_APP_CONNECT_ENV=Mainnet vite --host --force",
     "build": "bun run build:lib; bun run build:hosted; bun run build:netlify",
     "build:lib": "NODE_ENV=production NODE_OPTIONS=--max-old-space-size=10240 vite build",
+    "build:dev": "VITE_BUILD_DEV=1 NODE_ENV=production NODE_OPTIONS=--max-old-space-size=10240 vite build",
     "build:minimal": "VITE_BUILD_MINIMAL=1 NODE_ENV=production NODE_OPTIONS=--max-old-space-size=10240 vite build",
     "build:hosted": "VITE_BUILD_HOSTED=1 NODE_ENV=production NODE_OPTIONS=--max-old-space-size=10240 vite build",
     "build:netlify": "VITE_BUILD_NETLIFY=1 NODE_ENV=production NODE_OPTIONS=--max-old-space-size=10240 vite build",
@@ -166,7 +167,7 @@
     "@commitlint/cli": "^20.3.1",
     "@commitlint/config-conventional": "^20.3.1",
     "@eslint/js": "^9.32.0",
-    "@playwright/test": "1.54.1",
+    "@playwright/test": "1.55.1",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^20",
@@ -178,8 +179,8 @@
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
     "@vitejs/plugin-react-swc": "^3.5.0",
-    "@vitest/coverage-v8": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
+    "@vitest/coverage-v8": "^4.1.12",
+    "@vitest/ui": "^4.1.12",
     "commitizen": "^4.3.1",
     "commitlint": "20.3.1",
     "cz-conventional-changelog": "^3.3.0",
@@ -204,7 +205,7 @@
     "vite-plugin-checker": "^0.10.3",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-node-polyfills": "^0.24.0",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.12"
   },
   "peerDependencies": {
     "@types/react": "^18.0.0 || >=19.2.3",

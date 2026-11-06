@@ -15,6 +15,12 @@ export default defineConfig({
       '**/tests/**',
     ],
     watch: false,
+    server: {
+      deps: {
+        // package uses extensionless directory imports that Node ESM rejects
+        inline: [/@wormhole-labs\/(cctp|base-bridge)-executor-route/],
+      },
+    },
   },
   resolve: {
     alias: {

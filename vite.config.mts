@@ -224,6 +224,7 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
   const isHosted = !!env.VITE_BUILD_HOSTED;
   const isNetlify = !!env.VITE_BUILD_NETLIFY;
   const isMinimal = !!env.VITE_BUILD_MINIMAL;
+  const isDev = !!env.VITE_BUILD_DEV;
   const isSampleApp = command === 'serve' || (command === 'build' && isNetlify);
 
   let build: BuildEnvironmentOptions | undefined = undefined;
@@ -235,6 +236,8 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       build = hostedBuild;
     } else if (isMinimal) {
       build = minimalBuild;
+    } else if (isDev) {
+      build = { ...libBuild, sourcemap: true, minify: false };
     } else {
       build = libBuild;
     }
