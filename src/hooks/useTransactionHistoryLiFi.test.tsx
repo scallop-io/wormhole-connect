@@ -123,6 +123,7 @@ describe('useTransactionHistoryLiFi', () => {
 
   beforeEach(() => {
     fetchMock = vi.fn();
+    // @ts-ignore
     global.fetch = fetchMock;
     vi.clearAllMocks();
   });
