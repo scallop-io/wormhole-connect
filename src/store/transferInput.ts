@@ -49,12 +49,65 @@ export interface TransferInputState {
   receiverNativeBalance: string | undefined;
 }
 
+const LAST_CHAIN_KEYS = {
+  fromChain: 'last-from-chain',
+  toChain: 'last-to-chain',
+} as const;
+
+function readLastChain(key: keyof typeof LAST_CHAIN_KEYS): Chain | undefined {
+  try {
+    const saved = localStorage.getItem(config.cacheKey(LAST_CHAIN_KEYS[key]));
+    return saved && config.chains[saved as Chain]
+      ? (saved as Chain)
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+// A chain pair the form would accept without a validation error
+function isValidChainPair(
+  fromChain: Chain | undefined,
+  toChain: Chain | undefined,
+): fromChain is Chain {
+  if (!fromChain || !toChain || fromChain === toChain) return false;
+  const required = config.ui.defaultInputs?.requiredChain;
+  return !required || fromChain === required || toChain === required;
+}
+
+// Persists the selected chains so they survive a page reload
+export function saveLastChains(
+  prev: Pick<TransferInputState, 'fromChain' | 'toChain'>,
+  next: Pick<TransferInputState, 'fromChain' | 'toChain'>,
+) {
+  if (next.fromChain === prev.fromChain && next.toChain === prev.toChain) {
+    return;
+  }
+  if (!isValidChainPair(next.fromChain, next.toChain)) return;
+  try {
+    localStorage.setItem(
+      config.cacheKey(LAST_CHAIN_KEYS.fromChain),
+      next.fromChain!,
+    );
+    localStorage.setItem(
+      config.cacheKey(LAST_CHAIN_KEYS.toChain),
+      next.toChain!,
+    );
+  } catch {
+    // storage unavailable, nothing to persist
+  }
+}
+
 // This is a function because config might have changed since we last cleared this store
 function getInitialState(): TransferInputState {
   const { source, destination } = config.ui.defaultInputs || {};
-  const fromChain = source?.chain;
+  // Restore the saved pair only if both chains are valid together
+  const savedFrom = readLastChain('fromChain');
+  const savedTo = readLastChain('toChain');
+  const useSaved = isValidChainPair(savedFrom, savedTo);
+  const fromChain = useSaved ? savedFrom : source?.chain;
   const fromToken = source?.token;
-  const toChain = destination?.chain;
+  const toChain = useSaved ? savedTo : destination?.chain;
   const toToken = destination?.token;
   const fromTokenTuple =
     fromToken && fromChain
