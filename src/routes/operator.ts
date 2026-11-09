@@ -258,7 +258,7 @@ export default class RouteOperator {
     senderAddress: string,
     recipientAddress: string,
     destToken: Token,
-    options: routes.AutomaticTokenBridgeRoute.Options,
+    options: { nativeGas: number },
   ) {
     const route = this.get(routeName);
 
