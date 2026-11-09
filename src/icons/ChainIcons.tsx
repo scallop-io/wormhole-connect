@@ -8,7 +8,6 @@ import GLMR from './Chains/GLMR';
 import AVAX from './Chains/AVAX';
 import CELO from './Chains/CELO';
 import ETH from './Chains/ETH';
-import FTM from './Chains/FTM';
 import SOL from './Chains/SOL';
 import APT from './Chains/APT';
 import SUI from './Chains/SUI';
@@ -18,9 +17,6 @@ import BSC from './Chains/BSC';
 import ARBITRUM from './Chains/ARBITRUM';
 import OPTIMISM from './Chains/OPTIMISM';
 import KAIA from './Chains/KAIA';
-import SCROLL from './Chains/SCROLL';
-import MANTLE from './Chains/MANTLE';
-import XLAYER from './Chains/XLAYER';
 import WORLD from './Chains/WORLD';
 import UNI from './Chains/UNI';
 import BERA from './Chains/BERA';
@@ -45,7 +41,6 @@ const iconMap: { [key in Chain]?: React.JSX.Element } = {
   Bsc: BSC(),
   Celo: CELO(),
   Ethereum: ETH(),
-  Fantom: FTM(),
   Polygon: POLY(),
   Solana: SOL(),
   Sui: SUI(),
@@ -54,9 +49,6 @@ const iconMap: { [key in Chain]?: React.JSX.Element } = {
   Optimism: OPTIMISM(),
   Base: BASE(),
   Klaytn: KAIA(),
-  Scroll: SCROLL(),
-  Xlayer: XLAYER(),
-  Mantle: MANTLE(),
   Worldchain: WORLD(),
   Unichain: UNI(),
   Berachain: BERA(),

@@ -1,10 +1,11 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, TextField, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { usePopupState, bindTrigger } from 'material-ui-popup-state/hooks';
 import Typography from '@mui/material/Typography';
-import type { Chain, routes } from '@wormhole-foundation/sdk';
+import type { Chain } from '@wormhole-foundation/sdk';
 import { amount as sdkAmount, isSameToken } from '@wormhole-foundation/sdk';
 
 import config from 'config';

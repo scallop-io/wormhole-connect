@@ -1,5 +1,5 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { Chain, Network } from '@wormhole-foundation/sdk-base';
-import type { routes } from '@wormhole-foundation/sdk-connect';
 import type { Quote as MayanQuote } from '@mayanfinance/swap-sdk';
 
 export enum MayanProtocol {

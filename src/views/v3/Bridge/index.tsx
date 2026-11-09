@@ -47,6 +47,9 @@ import {
 import { copyTextToClipboard } from 'utils';
 import { isTransferValid, useValidate } from 'utils/transferValidation';
 import { TransferWallet } from 'utils/wallet';
+import { chainToPlatform } from '@wormhole-foundation/sdk';
+import { clearWallet } from 'store/wallet';
+import useWalletProvider from 'hooks/useWalletProvider';
 import { getFilteredChains } from 'utils/sdkv2';
 import { applyTokenWhitelist } from 'utils/tokenListUtils';
 import WalletConnector from 'views/v3/Bridge/WalletConnector';
@@ -194,6 +197,32 @@ function Bridge(props: BridgeProps) {
     sendingWallet,
     receivingWallet,
   );
+
+  // Safety net: a connected wallet must match the platform of its chain. A stale
+  // one (e.g. a Sui wallet left on the Solana side after "Start a new
+  // transaction") is cleared and replaced by the last used wallet for the chain.
+  const { connectWallet } = useWalletProvider();
+  useEffect(() => {
+    const fixMismatch = (
+      chain: typeof sourceChain,
+      wallet: typeof sendingWallet,
+      type: TransferWallet,
+    ) => {
+      if (!chain || !wallet?.address) return;
+      if (chainToPlatform(chain) === wallet.type) return;
+      dispatch(clearWallet(type));
+      void connectWallet(chain, type, true);
+    };
+    fixMismatch(sourceChain, sendingWallet, TransferWallet.SENDING);
+    fixMismatch(destChain, receivingWallet, TransferWallet.RECEIVING);
+  }, [
+    sourceChain,
+    destChain,
+    sendingWallet,
+    receivingWallet,
+    dispatch,
+    connectWallet,
+  ]);
 
   // Call to initiate transfer inputs validations
   useValidate();

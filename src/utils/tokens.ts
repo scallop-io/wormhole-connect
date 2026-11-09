@@ -16,7 +16,7 @@ import { chainToPlatform } from '@wormhole-foundation/sdk';
 import config, { getWormholeContextV2 } from 'config';
 import type { Token } from 'config/tokens';
 import { Contract } from 'ethers';
-import type { SuiClient } from '@mysten/sui/client';
+import type { SuiGrpcClient } from '@mysten/sui/grpc';
 
 interface TokenMetadataFromRpc {
   symbol: string;
@@ -107,13 +107,16 @@ export async function getTokenMetadataSui(
 ): Promise<TokenMetadataFromRpc | undefined> {
   try {
     const platform = wh.getPlatform('Sui');
-    const rpc: SuiClient = platform.getRpc(
+    const rpc: SuiGrpcClient = platform.getRpc(
       tokenId.chain as PlatformToChains<'Sui'>,
     );
-    const token = await rpc.getCoinMetadata({
+    const { coinMetadata } = await rpc.core.getCoinMetadata({
       coinType: tokenId.address.toString(),
     });
-    return { symbol: token?.symbol ?? '', name: token?.name ?? '' };
+    return {
+      symbol: coinMetadata?.symbol ?? '',
+      name: coinMetadata?.name ?? '',
+    };
   } catch (e) {
     console.error(e);
     return undefined;

@@ -1,3 +1,4 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import React, { memo } from 'react';
 import { useTheme } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -5,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import type { routes } from '@wormhole-foundation/sdk';
 
 import Button from 'components/v3/Button';
 import RoutesList from './RoutesList';

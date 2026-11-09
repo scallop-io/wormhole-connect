@@ -1,5 +1,3 @@
-import type { routes } from '@wormhole-foundation/sdk';
-
 export function getSlippageFromQuote(
   quote: routes.QuoteResult<routes.Options> | undefined,
 ) {
@@ -17,3 +15,4 @@ export function getMinReceivedFromQuote(
   }
   return quote.details?.minReceived;
 }
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';

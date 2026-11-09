@@ -59,6 +59,9 @@ const useGetTokenBalances = ({
   // Keep track of current request keys to avoid stale updates
   const currentRequestKeysRef = useRef<Set<string>>(new Set());
 
+  // Share one fetch between overlapping runs for the same chain+wallet
+  const inFlightRef = useRef<Map<string, Promise<Balances>>>(new Map());
+
   // Process results from indexer
   const processIndexerResults = useCallback(
     async (
@@ -309,11 +312,16 @@ const useGetTokenBalances = ({
               return { key, balances: {} };
             }
 
-            const balances = await fetchBalancesForChain(
-              request.chain,
-              request.wallet,
-              request.tokens,
-            );
+            let pending = inFlightRef.current.get(key);
+            if (!pending) {
+              pending = fetchBalancesForChain(
+                request.chain,
+                request.wallet,
+                request.tokens,
+              ).finally(() => inFlightRef.current.delete(key));
+              inFlightRef.current.set(key, pending);
+            }
+            const balances = await pending;
             return { key, balances };
           }),
         );

@@ -1,8 +1,5 @@
-import {
-  amount as sdkAmount,
-  type routes,
-  type Network,
-} from '@wormhole-foundation/sdk';
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
+import { amount as sdkAmount, type Network } from '@wormhole-foundation/sdk';
 import config from 'config';
 import type { Token } from 'config/tokens';
 import SDKv2Route from 'routes/sdkv2/route';

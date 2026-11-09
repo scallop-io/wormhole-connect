@@ -1,3 +1,4 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import { getWormholeContextV2 } from 'config';
 import type { RelayerFee } from 'store/relay';
 import type {
@@ -8,7 +9,6 @@ import type {
   CompletedTransferReceipt,
   TokenBridge,
   Network,
-  routes,
   CircleTransfer,
   ChainContext,
   ExecutorTokenBridge,
@@ -386,9 +386,7 @@ const parseCCTPReceipt = async (
 };
 
 const parseNttReceipt = (
-  receipt: ReceiptWithAttestation<
-    NttRoute.ManualAttestationReceipt | NttRoute.AutomaticAttestationReceipt
-  > & {
+  receipt: ReceiptWithAttestation<NttRoute.ManualAttestationReceipt> & {
     params: NttRoute.ValidatedParams;
   },
 ): TransferInfo => {
@@ -420,10 +418,7 @@ const parseNttReceipt = (
   }
 
   const { attestation } = receipt.attestation;
-  const { payload } =
-    attestation.payloadName === 'WormholeTransfer'
-      ? attestation
-      : attestation.payload;
+  const { payload } = attestation;
   const { trimmedAmount } = payload.nttManagerPayload.payload;
   const amt = amount.fromBaseUnits(
     trimmedAmount.amount,

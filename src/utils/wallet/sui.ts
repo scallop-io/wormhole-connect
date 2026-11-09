@@ -4,6 +4,7 @@ import { getWallets } from '@wormhole-labs/wallet-aggregator-sui';
 import type { Wallet } from '@wormhole-labs/wallet-aggregator-core';
 
 import type { Network } from '@wormhole-foundation/sdk';
+import { getWormholeContextV2 } from 'config';
 import type {
   SuiUnsignedTransaction,
   SuiChains,
@@ -25,7 +26,20 @@ export const signAndSendTransaction = async (
     throw new Error('wallet.signAndSendTransaction is undefined');
   }
 
-  return await wallet.signAndSendTransaction({
-    transactionBlock: request.transaction as Transaction,
+  const tx = await wallet.signAndSendTransaction({
+    transaction: request.transaction as Transaction,
   });
+
+  // The wallet executes through its own node, so our fullnode may not have
+  // indexed the transaction yet. Wait so later lookups don't get NOT_FOUND.
+  try {
+    const wh = await getWormholeContextV2();
+    const rpc = wh.getPlatform('Sui').getRpc(request.chain);
+    await rpc.waitForTransaction({ digest: tx.id });
+  } catch (e) {
+    // The transaction is already submitted, so don't fail the transfer
+    console.warn('Timed out waiting for Sui transaction to be indexed', e);
+  }
+
+  return tx;
 };

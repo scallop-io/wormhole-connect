@@ -4,6 +4,7 @@ import {
   type GetStatusRequest,
   type StatusResponse,
 } from '@lifi/sdk';
+import { getLiFiClient } from './client';
 import type {
   Chain,
   ChainContext,
@@ -141,7 +142,7 @@ export async function getTransactionStatus(
     bridge,
   };
 
-  const response = await getStatus(statusRequest);
+  const response = await getStatus(getLiFiClient(), statusRequest);
   if (response.status === 'NOT_FOUND') {
     return null;
   }

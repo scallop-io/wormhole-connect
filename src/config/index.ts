@@ -6,6 +6,8 @@ import type { WormholeConnectConfig } from './types';
 import type { InternalConfig } from './types';
 import { mergeCustomWrappedTokens, validateDefaults } from './utils';
 import { wrapEventHandler } from './events';
+import './suiRpc';
+import './registerProtocols';
 import { capitalize } from './utils';
 
 export * from './types';

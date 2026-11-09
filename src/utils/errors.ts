@@ -1,3 +1,4 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type {
   TransferErrorType,
   TransferError,
@@ -15,7 +16,7 @@ import {
   ERR_RELAY_FAILED,
   ERR_SLIPPAGE_EXCEEDED,
 } from 'telemetry/types';
-import { routes, amount as sdkAmount } from '@wormhole-foundation/sdk';
+import { amount as sdkAmount } from '@wormhole-foundation/sdk';
 import {
   chainDisplayName,
   getGasToken,

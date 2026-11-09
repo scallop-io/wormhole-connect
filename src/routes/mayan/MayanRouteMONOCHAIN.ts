@@ -1,6 +1,6 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import { chainToPlatform } from '@wormhole-foundation/sdk-base';
 import type { Chain, Network } from '@wormhole-foundation/sdk-connect';
-import type { routes } from '@wormhole-foundation/sdk-connect';
 import { MayanRouteBase } from './MayanRouteBase';
 import {
   MayanProtocol,

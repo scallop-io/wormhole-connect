@@ -4,6 +4,6 @@ export {
   cctpV2FastExecutorRoute,
 } from '@wormhole-labs/cctp-executor-route';
 
-import { routes } from '@wormhole-foundation/sdk';
 const { executorTokenBridgeRoute } = routes;
 export { executorTokenBridgeRoute };
+import * as routes from '@wormhole-foundation/sdk-connect/routes';

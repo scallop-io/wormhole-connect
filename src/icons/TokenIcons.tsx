@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
 import { Box, useTheme } from '@mui/material';
 
-import { chainToIcon } from '@wormhole-foundation/sdk-icons';
-
 import { CENTER } from 'utils/style';
 import { TokenIcon } from 'config/types';
 import WBTC from './Tokens/WBTC';
@@ -82,18 +80,6 @@ const iconMap: { [key in TokenIcon]: React.JSX.Element } = {
   [TokenIcon.INJ]: INJ(),
   [TokenIcon.NTT]: NTT(),
   [TokenIcon.SCROLL]: SCROLL(),
-  [TokenIcon.XLAYER]: (
-    <img
-      style={{ maxHeight: '100%', maxWidth: '100%' }}
-      src={chainToIcon('Xlayer')}
-    />
-  ),
-  [TokenIcon.MANTLE]: (
-    <img
-      style={{ maxHeight: '100%', maxWidth: '100%' }}
-      src={chainToIcon('Mantle')}
-    />
-  ),
   [TokenIcon.WORLDCHAIN]: WORLD(),
   [TokenIcon.BERA]: BERA(),
   [TokenIcon.INK]: INK(),

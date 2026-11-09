@@ -1,3 +1,4 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import WormholeConnect from '../WormholeConnect';
 
 import { type WormholeConnectTheme } from '../theme';
@@ -9,7 +10,6 @@ export * as config from 'config/types';
 
 // Routes
 import { DEFAULT_ROUTES } from 'routes/operator';
-import { routes } from '@wormhole-foundation/sdk';
 export {
   cctpV2FastExecutorRoute,
   cctpV2StandardExecutorRoute,

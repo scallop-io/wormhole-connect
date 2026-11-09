@@ -1,9 +1,7 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { LiFiStep, RoutesRequest } from '@lifi/sdk';
-import {
-  getRoutes,
-  convertQuoteToRoute,
-  config as lifiSdkConfig,
-} from '@lifi/sdk';
+import { getRoutes, convertQuoteToRoute, createClient } from '@lifi/sdk';
+import { getLiFiClient, setLiFiClient } from './client';
 
 import type {
   Chain,
@@ -26,7 +24,6 @@ import {
   isRefunded,
   isSourceFinalized,
   isSourceInitiated,
-  routes,
   amount as sdkAmount,
 } from '@wormhole-foundation/sdk-connect';
 import {
@@ -236,7 +233,7 @@ export class LiFiRoute<N extends Network>
       };
     }
 
-    const routesResponse = await getRoutes(routesRequest);
+    const routesResponse = await getRoutes(getLiFiClient(), routesRequest);
 
     if (!routesResponse.routes || routesResponse.routes.length === 0) {
       throw new Error('No routes available');
@@ -421,14 +418,14 @@ export class LiFiRoute<N extends Network>
 export function createLiFiRouteWithConfig(
   config: LiFiConfig<Network>,
 ): routes.RouteConstructor {
-  // We are calling this instead of `createConfig` from the LiFi SDK
-  // to avoid extra network calls to fetch chains which we don't need.
-  lifiSdkConfig.set({
-    // The integrator is required here so just set it to the default.
-    // The actual integrator used will be set per-quote in fetchQuote().
-    integrator: DEFAULT_INTEGRATOR,
-    apiUrl: config.apiUrl ?? DEFAULT_API_URL,
-  });
+  setLiFiClient(
+    createClient({
+      // The integrator is required here so just set it to the default.
+      // The actual integrator used will be set per-quote in fetchQuote().
+      integrator: DEFAULT_INTEGRATOR,
+      apiUrl: config.apiUrl ?? DEFAULT_API_URL,
+    }),
+  );
 
   return class ConfiguredLiFiRoute<N extends Network> extends LiFiRoute<N> {
     override config = config as LiFiConfig<Network>;

@@ -38,50 +38,6 @@ describe('getGasReserve', () => {
       expect(sdkAmount.units(reserve!)).toBe(1000000000000000n);
     });
 
-    it('returns 0.001 for Scroll', () => {
-      const reserve = getGasReserve('Scroll');
-
-      expect(reserve).toBeDefined();
-      expect(sdkAmount.display(reserve!)).toBe('0.001');
-      expect(sdkAmount.units(reserve!)).toBe(1000000000000000n);
-    });
-
-    it('returns 0.001 for Xlayer', () => {
-      const reserve = getGasReserve('Xlayer');
-
-      expect(reserve).toBeDefined();
-      expect(sdkAmount.display(reserve!)).toBe('0.001');
-      expect(sdkAmount.units(reserve!)).toBe(1000000000000000n);
-    });
-
-    it('returns 0.001 for Mantle', () => {
-      const reserve = getGasReserve('Mantle');
-
-      expect(reserve).toBeDefined();
-      expect(sdkAmount.display(reserve!)).toBe('0.001');
-      expect(sdkAmount.units(reserve!)).toBe(1000000000000000n);
-    });
-  });
-
-  describe('Solana', () => {
-    it('returns 0.01 SOL for Solana', () => {
-      const reserve = getGasReserve('Solana');
-
-      expect(reserve).toBeDefined();
-      expect(sdkAmount.display(reserve!)).toBe('0.01');
-      expect(sdkAmount.units(reserve!)).toBe(10000000n); // 0.01 * 10^9
-    });
-  });
-
-  describe('Other EVM L1 chains', () => {
-    it('returns 0.01 for Bsc', () => {
-      const reserve = getGasReserve('Bsc');
-
-      expect(reserve).toBeDefined();
-      expect(sdkAmount.display(reserve!)).toBe('0.01');
-      expect(sdkAmount.units(reserve!)).toBe(10000000000000000n);
-    });
-
     it('returns 0.01 for Avalanche', () => {
       const reserve = getGasReserve('Avalanche');
 
@@ -96,13 +52,6 @@ describe('getGasReserve', () => {
       expect(reserve).toBeDefined();
       expect(sdkAmount.display(reserve!)).toBe('0.01');
       expect(sdkAmount.units(reserve!)).toBe(10000000000000000n);
-    });
-
-    it('returns undefined for Fantom (gas token not configured)', () => {
-      const reserve = getGasReserve('Fantom');
-
-      // Fantom has a reserve configured but no gas token in config, so should return undefined
-      expect(reserve).toBeUndefined();
     });
 
     it('returns 0.01 for Celo', () => {

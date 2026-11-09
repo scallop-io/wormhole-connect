@@ -1,3 +1,4 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { ChainName as MayanChainName } from '@mayanfinance/swap-sdk';
 import type { ChainName as MayanTestnetChainName } from '@testnet-mayan/swap-sdk';
 
@@ -10,7 +11,6 @@ import type {
   RefundedTransferReceipt,
   SourceInitiatedTransferReceipt,
   TransactionId,
-  routes,
   Network,
 } from '@wormhole-foundation/sdk-connect';
 import {

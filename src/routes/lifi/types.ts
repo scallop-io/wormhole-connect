@@ -1,8 +1,8 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type { AllowDenyPrefer } from '@lifi/sdk';
 import type { TimingStrategyString } from '@lifi/types';
 import type {
   Network,
-  routes,
   Signer,
   TransactionId,
 } from '@wormhole-foundation/sdk-connect';

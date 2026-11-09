@@ -1,5 +1,6 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import React, { useCallback } from 'react';
-import type { Network, routes } from '@wormhole-foundation/sdk';
+import type { Network } from '@wormhole-foundation/sdk';
 
 interface RouteContextType {
   route: routes.Route<Network> | null;

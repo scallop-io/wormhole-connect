@@ -66,11 +66,15 @@ const resolve = {
     // Bun's stricter module resolution requires explicit aliases
     '@ledgerhq/devices/hid-framing': '@ledgerhq/devices/lib-es/hid-framing.js',
   },
+  // Bundle a single React copy; two copies break hooks (null dispatcher)
+  dedupe: ['react', 'react-dom'],
 };
+
+const dtsPlugin = dts({ insertTypesEntry: true });
 
 const plugins = [
   checker({ typescript: true }),
-  dts({ insertTypesEntry: true }),
+  dtsPlugin,
   react(),
   nodePolyfills({
     include: [
@@ -224,6 +228,7 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
   const isHosted = !!env.VITE_BUILD_HOSTED;
   const isNetlify = !!env.VITE_BUILD_NETLIFY;
   const isMinimal = !!env.VITE_BUILD_MINIMAL;
+  const isDev = !!env.VITE_BUILD_DEV;
   const isSampleApp = command === 'serve' || (command === 'build' && isNetlify);
 
   let build: BuildEnvironmentOptions | undefined = undefined;
@@ -235,16 +240,26 @@ export default defineConfig(({ command, mode }: ConfigEnv) => {
       build = hostedBuild;
     } else if (isMinimal) {
       build = minimalBuild;
+    } else if (isDev) {
+      build = { ...libBuild, sourcemap: true, minify: false };
     } else {
       build = libBuild;
     }
   }
 
   return {
+    // Hosted bundle is served from a CDN, so preload URLs must be absolute to it.
+    // Otherwise they resolve against the embedding app's origin and hit its SPA fallback (HTML).
+    base:
+      command === 'build' && isHosted
+        ? env.VITE_HOSTED_BASE_URL ??
+          'https://xqchn04pe7xp6tkj.public.blob.vercel-storage.com/wormhole-connect@scallop/'
+        : undefined,
     build,
     define,
     envPrefix,
     resolve,
-    plugins,
+    // Hosted build ships only JS/CSS, no type declarations (dist/src, dist/scripts)
+    plugins: isHosted ? plugins.filter((p) => p !== dtsPlugin) : plugins,
   };
 });

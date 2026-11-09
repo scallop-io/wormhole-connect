@@ -24,11 +24,8 @@ export const CHAIN_ORDER: Chain[] = [
   'Celo',
   'Moonbeam',
   'Klaytn',
-  'Scroll',
-  'Mantle',
   'Berachain',
   'Mezo',
   'Fogo',
   'HyperCore',
-  'Fantom',
 ];

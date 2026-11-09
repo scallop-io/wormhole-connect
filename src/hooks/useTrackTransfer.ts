@@ -1,3 +1,4 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import { useEffect, useState } from 'react';
 import { isCompleted, TransferState } from '@wormhole-foundation/sdk';
 import { clearCache as clearBalanceCache } from 'utils/balanceCache';
@@ -5,11 +6,7 @@ import { clearCache as clearBalanceCache } from 'utils/balanceCache';
 import config, { getWormholeContextV2 } from 'config';
 import { sleep } from 'utils';
 
-import type {
-  AttestationReceipt,
-  routes,
-  TokenId,
-} from '@wormhole-foundation/sdk';
+import type { AttestationReceipt, TokenId } from '@wormhole-foundation/sdk';
 import { useSelector } from 'react-redux';
 import type { RootState } from 'store';
 import { useTokens } from 'contexts/TokensContext';

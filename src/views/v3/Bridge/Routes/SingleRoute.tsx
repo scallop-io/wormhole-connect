@@ -1,3 +1,4 @@
+import type * as routes from '@wormhole-foundation/sdk-connect/routes';
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material';
@@ -9,7 +10,6 @@ import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import type { routes } from '@wormhole-foundation/sdk';
 import { amount } from '@wormhole-foundation/sdk';
 
 import config from 'config';

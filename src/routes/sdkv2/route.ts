@@ -1,3 +1,4 @@
+import * as routes from '@wormhole-foundation/sdk-connect/routes';
 import type {
   Chain,
   ChainContext,
@@ -8,7 +9,6 @@ import type {
 } from '@wormhole-foundation/sdk';
 import {
   Wormhole,
-  routes,
   chainToPlatform,
   isSameToken,
   TransferState,
@@ -341,9 +341,7 @@ export default class SDKv2Route {
       if (
         ['ETH', 'WETH'].includes(symbol) &&
         nativeChain === 'Ethereum' &&
-        (['Scroll', 'Xlayer', 'Mantle', 'Unichain'] as Chain[]).includes(
-          toChain,
-        )
+        toChain === 'Unichain'
       ) {
         return true;
       }
