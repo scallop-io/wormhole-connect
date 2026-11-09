@@ -23,6 +23,7 @@ import {
 } from '@wormhole-labs/cctp-executor-route';
 
 import SDKv2Route from './sdkv2/route';
+import { LegacyCCTPRoute, ManualCCTPv2SuiRoute } from './cctpV2Sui';
 import type { QuoteMetadata } from './types';
 import { getDefaultQuoteExpiry, getQuoteExpiry } from 'utils/routes';
 
@@ -38,7 +39,8 @@ type forEachCallback<T> = (name: string, route: SDKv2Route) => T;
 export const DEFAULT_ROUTES = [
   cctpV2FastExecutorRoute(),
   cctpV2StandardExecutorRoute(),
-  routes.CCTPRoute,
+  ManualCCTPv2SuiRoute,
+  LegacyCCTPRoute,
   routes.executorTokenBridgeRoute(),
   routes.TBTCRoute,
 ];
@@ -118,6 +120,7 @@ export default class RouteOperator {
           })
           .catch((e) => {
             failedAttempts += 1;
+            console.debug(`Resume: ${name} could not resume ${tx.txid}`, e);
             // Possible reasons for error here:
             //
             // - Given transaction does not correspond to this route.
