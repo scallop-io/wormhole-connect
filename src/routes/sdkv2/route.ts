@@ -178,7 +178,7 @@ export default class SDKv2Route {
     destToken: Token,
     sourceChain: Chain,
     destChain: Chain,
-    options?: routes.AutomaticTokenBridgeRoute.Options,
+    options?: { nativeGas: number },
     sender?: string,
     recipient?: string,
   ): Promise<QuoteMetadata> {

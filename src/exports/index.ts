@@ -10,6 +10,7 @@ export * as config from 'config/types';
 
 // Routes
 import { DEFAULT_ROUTES } from 'routes/operator';
+import { ManualCCTPv2SuiRoute } from 'routes/cctpV2Sui';
 export {
   cctpV2FastExecutorRoute,
   cctpV2StandardExecutorRoute,
@@ -54,6 +55,7 @@ export {
   // Routes
   DEFAULT_ROUTES,
   CCTPRoute,
+  ManualCCTPv2SuiRoute,
   TBTCRoute,
   executorTokenBridgeRoute,
 };

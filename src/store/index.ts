@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import redeemReducer from './redeem';
-import transferInputReducer from './transferInput';
+import transferInputReducer, { saveLastChains } from './transferInput';
 import relayReducer from './relay';
 import routerReducer from './router';
 import walletReducer from './wallet';
@@ -15,6 +15,14 @@ export const store = configureStore({
     relay: relayReducer,
     search: searchReducer,
   },
+});
+
+let prevTransferInput = store.getState().transferInput;
+store.subscribe(() => {
+  const { transferInput } = store.getState();
+  if (transferInput === prevTransferInput) return;
+  saveLastChains(prevTransferInput, transferInput);
+  prevTransferInput = transferInput;
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

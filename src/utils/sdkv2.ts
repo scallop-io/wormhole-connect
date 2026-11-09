@@ -20,6 +20,7 @@ import {
   circle,
   nativeTokenId,
   TBTCBridge,
+  UniversalAddress,
 } from '@wormhole-foundation/sdk';
 import type { NttRoute } from '@wormhole-foundation/sdk-route-ntt';
 import type { MultiTokenNttRoute } from '@wormhole-foundation/sdk-route-ntt';
@@ -29,6 +30,8 @@ import { Connection } from '@solana/web3.js';
 import { PublicKey } from '@solana/web3.js';
 import * as splToken from '@solana/spl-token';
 import config from 'config';
+import type { ManualCCTPv2SuiRoute } from 'routes/cctpV2Sui';
+import { parseV2Message } from 'routes/cctpV2Sui/message';
 import { WORMSCAN } from 'config/constants';
 import type { TokenTuple } from 'config/tokens';
 import type { Token } from 'config/tokens';
@@ -138,8 +141,11 @@ export function getExplorerInfos(
         name: 'USDC.range Explorer',
       },
     ];
-  } else if (routeName === 'BaseBridgeRoute') {
-    // Base Bridge transactions are not indexed on Wormholescan yet
+  } else if (
+    routeName === 'BaseBridgeRoute' ||
+    routeName === 'ManualCCTPv2Sui'
+  ) {
+    // Not indexed on Wormholescan
     return [];
   } else {
     return [getWormholescanExplorerInfo(txHash)];
@@ -194,6 +200,10 @@ export async function parseReceipt(
     case 'CCTPv2FastExecutorRoute':
       return parseCCTPv2Receipt(
         receipt as ReceiptWithAttestation<CCTPv2ExecutorRoute.Attestation>,
+      );
+    case 'ManualCCTPv2Sui':
+      return parseManualCCTPv2SuiReceipt(
+        receipt as ReceiptWithAttestation<ManualCCTPv2SuiRoute.AttestationReceipt>,
       );
     case 'MonadBridgeManualRoute':
     case 'MonadBridgeExecutorRoute':
@@ -584,6 +594,66 @@ const parseCCTPv2Receipt = async (
   }
 
   return txData as TransferInfo;
+};
+
+const parseManualCCTPv2SuiReceipt = async (
+  receipt: ReceiptWithAttestation<ManualCCTPv2SuiRoute.AttestationReceipt>,
+): Promise<TransferInfo> => {
+  if (!('originTxs' in receipt) || receipt.originTxs.length === 0) {
+    throw new Error("Can't find txid in receipt");
+  }
+  const att = receipt.attestation.attestation;
+  if (!att) {
+    throw new Error('Missing Circle attestation');
+  }
+  const msg = parseV2Message(att.message);
+
+  // On Sui the message's burnToken is not the coin type, so use the known USDC
+  const srcUsdc = circle.usdcContract.get(config.network, receipt.from);
+  const dstUsdc = circle.usdcContract.get(config.network, receipt.to);
+  const sourceToken = srcUsdc && config.tokens.get(receipt.from, srcUsdc);
+  const destinationToken = dstUsdc && config.tokens.get(receipt.to, dstUsdc);
+  if (!sourceToken || !destinationToken) {
+    throw new Error(`Couldn't find USDC for ${receipt.from} or ${receipt.to}`);
+  }
+
+  let recipient = new UniversalAddress(msg.mintRecipient)
+    .toNative(receipt.to)
+    .toString();
+  if (isSvmChain(receipt.to)) {
+    // On Solana the mint recipient is the token account; show its owner instead
+    const rpcUrl = config.rpcs[receipt.to];
+    if (rpcUrl) {
+      try {
+        const account = await splToken.getAccount(
+          new Connection(rpcUrl),
+          new PublicKey(recipient),
+        );
+        recipient = account.owner.toBase58();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }
+
+  return {
+    sendTx: receipt.originTxs[receipt.originTxs.length - 1].txid,
+    fromChain: receipt.from,
+    toChain: receipt.to,
+    sender: new UniversalAddress(msg.messageSender)
+      .toNative(receipt.from)
+      .toString(),
+    recipient,
+    tokenAddress: sourceToken.address.toString(),
+    token: sourceToken.tuple,
+    tokenDecimals: sourceToken.decimals,
+    amount: amount.fromBaseUnits(msg.amount, sourceToken.decimals),
+    receivedToken: destinationToken.tuple,
+    receiveAmount: amount.fromBaseUnits(
+      msg.amount - msg.feeExecuted,
+      destinationToken.decimals,
+    ),
+  };
 };
 
 const parseBaseBridgeReceipt = async (

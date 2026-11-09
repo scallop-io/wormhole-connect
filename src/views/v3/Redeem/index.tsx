@@ -656,6 +656,7 @@ function Redeem() {
       [
         'ManualTokenBridge',
         'ManualCCTP',
+        'ManualCCTPv2Sui',
         'CCTPv2FastExecutorRoute',
         'CCTPv2StandardExecutorRoute',
         'BaseBridgeRoute',
