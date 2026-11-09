@@ -5,12 +5,6 @@ import { put } from '@vercel/blob';
 import { readdir, readFile } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
 
-try {
-  process.loadEnvFile(join(import.meta.dirname, '.env'));
-} catch {
-  // no scripts/.env; fall back to existing environment
-}
-
 const LIB_DIR = join(import.meta.dirname, '..', 'dist');
 const PREFIX = (
   process.argv[2] ??
